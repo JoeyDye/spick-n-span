@@ -1,6 +1,8 @@
 import { useState } from "react";
+import { prevDef } from "../utils/prevDef";
 
 import Todo from "./Todo";
+import { prevDefault } from "../utils/prevDefault";
 
 const Todos = () => {
   const [todos, setTodos] = useState([
@@ -11,7 +13,7 @@ const Todos = () => {
 
   const [todo, setTodo] = useState({ id: 0, title: "" });
 
-  const [currentCategory, setCurrentCategory] = useState("");
+  const [currentCategory, setCurrentCategory] = useState("all");
 
   const handleTodoChange = (e) =>
     setTodo({ id: todos.length + 1, title: e.target.value });
@@ -29,15 +31,20 @@ const Todos = () => {
   return (
     <>
       <select
+        className="block p-2"
         value={currentCategory}
         onChange={handleCategoryChange}
       >
-        <option value="kitchen">kitchen</option>
-        <option value="master">master</option>
-        <option value="nursery">nursery</option>
+        <option value="all">All</option>
+        <option value="kitchen">Kitchen</option>
+        <option value="master">Master</option>
+        <option value="nursery">Nursery</option>
       </select>
-      <form onSubmit={handleSubmitTodo}>
+      <form
+        onSubmit={(e) => prevDefault(e, handleSubmitTodo)}
+      >
         <input
+          className="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           type="text"
           placeholder="Add todo"
           onChange={handleTodoChange}
@@ -46,7 +53,7 @@ const Todos = () => {
       </form>
       <ul>
         {todos.filter(({ category }) =>
-          !currentCategory || category === currentCategory
+          currentCategory === "all" || category === currentCategory
         ).map((
           todo,
         ) => (
