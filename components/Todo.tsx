@@ -1,8 +1,14 @@
-const Todo = ({ id, title, completeTodo }) => (
+const Todo = ({ id, title, category, completeTodo }) => (
   <li>
-    {title}{' '}
-    <input type='checkbox' name={title} onChange={() => completeTodo(id)} />
+    <span className="mr-1">{title}</span>
+    <input
+      className="mr-1"
+      type="checkbox"
+      name={title}
+      onChange={() => completeTodo(id)}
+    />
+    <small>{category}</small>
   </li>
-)
+);
 
-export default Todo
+export default Todo;
