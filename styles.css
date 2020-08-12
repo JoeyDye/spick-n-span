@@ -3,3 +3,12 @@
 @tailwind components;
 /* purgecss end ignore */
 @tailwind utilities;
+
+/* Form Components */
+.text-input {
+  @apply shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight;
+}
+
+.text-input:focus {
+  @apply outline-none shadow-outline;
+}
