@@ -1,48 +1,62 @@
-import { useState, useEffect } from 'react'
-import { firestore } from '../../firebase'
-import TodoCategorySelect from './TodoCategorySelect'
-import TodoInput from './TodoInput'
-import TodosList from './TodoList'
+import { useState, useEffect } from "react";
+import { firestore } from "../../firebase";
+import TodoCategorySelect from "./TodoCategorySelect";
+import TodoInput from "./TodoInput";
+import TodosList from "./TodoList";
 
 const Todos = () => {
-  const [todos, setTodos] = useState([])
+  const [todos, setTodos] = useState([]);
 
   const getTodos = async () => {
     try {
-      const collectionRef = await firestore.collection('todos')
+      const collectionRef = await firestore.collection("todos");
+      collectionRef.onSnapshot((querySnapshot) => {
+        const todos = [];
+        querySnapshot.forEach((doc) => {
+          todos.push({
+            id: doc.id,
+            ...doc.data(),
+          });
+        });
 
-      const snapshot = await collectionRef.get()
-
-      const todos = snapshot.docs.map(doc => {
-        return { id: doc.id, ...doc.data() }
-      })
-
-      setTodos(todos)
+        setTodos(todos);
+      });
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   useEffect(() => {
-    getTodos()
-  }, [])
+    getTodos();
+  }, []);
 
-  const [todo, setTodo] = useState({ id: 0, title: '' })
+  const [todo, setTodo] = useState({ id: 0, title: "" });
 
-  const [currentCategory, setCurrentCategory] = useState('all')
+  const [currentCategory, setCurrentCategory] = useState("all");
 
-  const handleTodoChange = e =>
-    setTodo({ id: todos.length + 1, title: e.target.value })
+  const handleTodoChange = (e) =>
+    setTodo({ title: e.target.value, category: "Kitchen" });
 
-  const handleTodoSubmit = () => {
-    setTodos(prevTodos => [todo, ...prevTodos])
-    setTodo({ id: 0, title: '' })
-  }
+  const handleTodoSubmit = async () => {
+    try {
+      const collectionRef = await firestore.collection("todos");
+      await collectionRef.add({
+        title: todo.title,
+        category: "kitchen",
+      });
+    } catch (error) {
+      console.log(error);
+    }
+    setTodo({ id: 0, title: "" });
+  };
 
-  const completeTodo = id =>
-    setTodos(prevTodos => prevTodos.filter(todo => todo.id !== id))
+  const completeTodo = async (id) => {
+    const collectionRef = await firestore.collection("todos");
+    await collectionRef.doc(id).update({ complete: true });
+    setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== id));
+  };
 
-  const handleCategoryChange = e => setCurrentCategory(e.target.value)
+  const handleCategoryChange = (e) => setCurrentCategory(e.target.value);
 
   return (
     <>
@@ -61,7 +75,7 @@ const Todos = () => {
         completeTodo={completeTodo}
       />
     </>
-  )
-}
+  );
+};
 
-export default Todos
+export default Todos;

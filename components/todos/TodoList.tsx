@@ -1,16 +1,17 @@
-import Todo from './Todo'
+import Todo from "./Todo";
 
 const TodosList = ({ todos, currentCategory, completeTodo }) => (
   <ul>
     {todos
       .filter(
-        ({ category }) =>
-          currentCategory === 'all' || category === currentCategory
+        ({ category, complete }) =>
+          !complete && currentCategory === "all" ||
+          category === currentCategory,
       )
-      .map(todo => (
+      .map((todo) => (
         <Todo key={todo.id} {...todo} completeTodo={completeTodo} />
       ))}
   </ul>
-)
+);
 
-export default TodosList
+export default TodosList;
