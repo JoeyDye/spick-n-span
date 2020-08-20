@@ -1,6 +1,8 @@
 import Todo from "./Todo";
 
-const TodosList = ({ todos, currentCategory, completeTodo }) => (
+const TodosList = (
+  { todos, currentCategory, handleCompleteTodo, handleDeleteTodo },
+) => (
   <ul>
     {todos
       .filter(
@@ -9,7 +11,12 @@ const TodosList = ({ todos, currentCategory, completeTodo }) => (
           category === currentCategory,
       )
       .map((todo) => (
-        <Todo key={todo.id} {...todo} completeTodo={completeTodo} />
+        <Todo
+          key={todo.id}
+          {...todo}
+          handleCompleteTodo={handleCompleteTodo}
+          handleDeleteTodo={() => handleDeleteTodo(todo.id)}
+        />
       ))}
   </ul>
 );
