@@ -50,7 +50,7 @@ const TodosProvider = ({ children }) => {
     } catch (error) {
       console.log(error);
     }
-    setTodo({ id: 0, title: "" });
+    setTodo({ title: "", category: "" });
   };
 
   const handleCompleteTodo = async (id: string) => {
