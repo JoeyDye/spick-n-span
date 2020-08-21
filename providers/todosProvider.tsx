@@ -1,7 +1,17 @@
 import { createContext, useState, useContext } from "react";
 import { firestore } from "../firebase";
 
-const TodosContext = createContext({});
+const TodosContext = createContext({
+  todo: "",
+  todos: [],
+  currentCategory: "",
+  getTodos: () => {},
+  handleTodoChange: () => {},
+  handleTodoSubmit: () => {},
+  handleCompleteTodo: () => {},
+  handleDeleteTodo: () => {},
+  handleCategoryChange: () => {},
+});
 
 const TodosProvider = ({ children }) => {
   const [todos, setTodos] = useState([]);
