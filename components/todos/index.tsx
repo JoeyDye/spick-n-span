@@ -7,15 +7,7 @@ import { useTodosState } from "../../providers/todosProvider";
 
 const Todos = () => {
   const {
-    todo,
-    todos,
-    currentCategory,
-    handleCategoryChange,
     getTodos,
-    handleTodoChange,
-    handleTodoSubmit,
-    handleCompleteTodo,
-    handleDeleteTodo,
   } = useTodosState();
 
   useEffect(() => {
@@ -24,21 +16,9 @@ const Todos = () => {
 
   return (
     <>
-      <TodoCategorySelect
-        currentCategory={currentCategory}
-        handleCategoryChange={handleCategoryChange}
-      />
-      <TodoInput
-        handleTodoChange={handleTodoChange}
-        handleTodoSubmit={handleTodoSubmit}
-        todoTitle={todo.title}
-      />
-      <TodosList
-        todos={todos}
-        currentCategory={currentCategory}
-        handleCompleteTodo={handleCompleteTodo}
-        handleDeleteTodo={handleDeleteTodo}
-      />
+      <TodoCategorySelect />
+      <TodoInput />
+      <TodosList />
     </>
   );
 };
