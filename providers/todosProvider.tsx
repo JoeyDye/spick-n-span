@@ -15,7 +15,7 @@ const TodosContext = createContext({
 
 const TodosProvider = ({ children }) => {
   const [todos, setTodos] = useState([]);
-  const [todo, setTodo] = useState({ id: 0, title: "" });
+  const [todo, setTodo] = useState({ title: "", category: "" });
   const [currentCategory, setCurrentCategory] = useState("all");
 
   const getTodos = async () => {
