@@ -2,15 +2,15 @@ import { createContext, useState, useContext } from "react";
 import { firestore } from "../firebase";
 
 const TodosContext = createContext({
-  todo: "",
+  todo: {},
   todos: [],
   currentCategory: "",
   getTodos: () => {},
-  handleTodoChange: () => {},
+  handleTodoChange: (e) => {},
   handleTodoSubmit: () => {},
-  handleCompleteTodo: () => {},
-  handleDeleteTodo: () => {},
-  handleCategoryChange: () => {},
+  handleCompleteTodo: (id: string) => {},
+  handleDeleteTodo: (id: string) => {},
+  handleCategoryChange: (e) => {},
 });
 
 const TodosProvider = ({ children }) => {
@@ -53,7 +53,7 @@ const TodosProvider = ({ children }) => {
     setTodo({ id: 0, title: "" });
   };
 
-  const handleCompleteTodo = async (id) => {
+  const handleCompleteTodo = async (id: string) => {
     try {
       const collectionRef = await firestore.collection("todos");
       await collectionRef.doc(id).update({ complete: true });
@@ -62,7 +62,7 @@ const TodosProvider = ({ children }) => {
     }
   };
 
-  const handleDeleteTodo = async (id) => {
+  const handleDeleteTodo = async (id: string) => {
     try {
       const collectionRef = await firestore.collection("todos");
       await collectionRef.doc(id).delete();
